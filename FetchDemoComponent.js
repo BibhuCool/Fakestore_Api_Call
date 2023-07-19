@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 export default function FetchDemoComponent() {
     const [catagories, setCatagory] = useState([])
@@ -5,19 +6,16 @@ export default function FetchDemoComponent() {
     
 
     const LoadCategories = () => {
-        fetch("https://fakestoreapi.com/products/categories")
-            .then(response => response.json())
-            .then(data => {
-                data.unshift("All");
-                setCatagory(data);
+        axios.get("https://fakestoreapi.com/products/categories")
+            .then(response => {
+                response.data.unshift("All");
+                setCatagory(response.data);
             })
     }
     const LoadProducts = () => {
-        fetch("https://fakestoreapi.com/products")
-            .then(response => response.json())
-            .then(data => {
-                setProducts(data);
-                console.log(data)
+        axios.get("https://fakestoreapi.com/products")
+            .then(response => {
+                setProducts(response.data);
             })
     }
 
@@ -31,10 +29,9 @@ export default function FetchDemoComponent() {
     if(e.target.value==='All'){
         LoadProducts();
     }else{
-        fetch(`https://fakestoreapi.com/products/category/${e.target.value}`)
-    .then(response => response.json())
-    .then(data => {
-        setProducts(data);
+        axios.get(`https://fakestoreapi.com/products/category/${e.target.value}`)
+    .then(response => {
+        setProducts(response.data);
         
     })
     }
